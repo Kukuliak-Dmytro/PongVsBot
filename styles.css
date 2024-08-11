@@ -1,0 +1,65 @@
+*, *::after, *::before{
+    box-sizing: border-box;
+}
+:root{
+    --hue:200;
+    --saturation: 50%;
+    --foregroundColor:hsl( var(--hue), var(--saturation), 75%);
+    --backgroundColor:hsl( var(--hue), var(--saturation), 10%);
+
+}
+body {
+    margin: 0;
+    background-color: var(--backgroundColor);
+
+}
+
+.paddle{
+    --position: 50;
+    position: absolute;
+    background-color: var(--foregroundColor);
+    width: 1vh;
+    height: 10vh;
+    top: calc(var(--position)*1vh);
+    translate: 0% -50%;
+}
+
+.paddle.left{
+    left: 1vw;
+}
+
+.paddle.right{
+    right: 1vw;
+}
+
+.ball{
+    --x: 50;
+    --y:50;
+
+    position: absolute;
+    background-color: var(--foregroundColor);
+    width: 2.5vh;
+    height: 2.5vh;
+    border-radius: 50%;
+    left:calc(var(--x)*1vw);
+    top: calc(var(--y)*1vh);
+    translate: -50% -50%;
+}
+.score{
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 7vh;
+    color: var(--foregroundColor);
+}
+.score > *{
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 0 2vh;
+    margin: 1vh 0;
+    opacity: .75;
+}
+.score> :first-child{
+    text-align: right;
+    border-right: .5vh solid var(--foregroundColor);
+}
