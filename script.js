@@ -7,6 +7,8 @@ const compoterPaddle = new Paddle(document.getElementById('computer-paddle'))
 
 const playerScoreElement = document.getElementById('player-score')
 const computerScoreElement = document.getElementById('computer-score')
+const score = new Audio('score.mp3');
+const failing = new Audio('failing.mp3')
 
 
 let lastTime;
@@ -16,12 +18,12 @@ function update(time) {
 
         ball.update(delta, [playerPaddle.rect(), compoterPaddle.rect()]);
         if (window.innerWidth <= 768) {
-         compoterPaddle.update(delta, ball.x);
+            compoterPaddle.update(delta, ball.x);
 
         }
-        else{
-         compoterPaddle.update(delta, ball.y);
-            
+        else {
+            compoterPaddle.update(delta, ball.y);
+
         }
         const hue = parseFloat(
             getComputedStyle(document.documentElement).getPropertyValue("--hue")
@@ -41,18 +43,25 @@ function handleLose() {
     if (window.innerWidth <= 768) {
         if (rect.top >= window.innerHeight) {
             playerScoreElement.textContent = parseInt(playerScoreElement.textContent) + 1;
+            failing.play();
+
         }
         else {
             computerScoreElement.textContent = parseInt(computerScoreElement.textContent) + 1;
+            score.play();
 
         }
     }
     else {
         if (rect.right >= window.innerWidth) {
             playerScoreElement.textContent = parseInt(playerScoreElement.textContent) + 1;
+            failing.play();
+          
+
         }
         else {
             computerScoreElement.textContent = parseInt(computerScoreElement.textContent) + 1;
+            score.play();
 
         }
     }

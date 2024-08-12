@@ -1,5 +1,9 @@
 const INITIAL_VELOCITY = 0.025;
 const VELOCITY_INCREASE = .000001;
+const hitWall = new Audio('hitWall.wav');
+const hitPaddle = new Audio('hitPaddle.wav');
+
+
 export default class Ball {
     constructor(ballElem) {
         this.ballElem = ballElem;
@@ -44,18 +48,26 @@ export default class Ball {
         if (window.innerWidth <= 768) {
             if (rect.right >= window.innerWidth || rect.left <= 0) {
                 this.direction.x *= -1;
+                hitWall.play(); 
             }
             if (paddleRects.some(r => isCollision(r, rect))) {
                 this.direction.y *= -1;
+                hitPaddle.play(); 
+
             }
         }
         //for desktop
         else {
             if (rect.bottom >= window.innerHeight || rect.top <= 0) {
                 this.direction.y *= -1;
+                hitWall.play(); 
+
+                
             }
             if (paddleRects.some(r => isCollision(r, rect))) {
                 this.direction.x *= -1;
+                hitPaddle.play(); 
+
             }
         }
     }

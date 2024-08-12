@@ -29,6 +29,7 @@ body {
     --position: 50;
     position: absolute;
     background-color: var(--foregroundColor);
+    border-radius: 5px;
     width: 1vh;
     height: 10vh;
     top: calc(var(--position)*1vh);
