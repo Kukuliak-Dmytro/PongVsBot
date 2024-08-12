@@ -15,7 +15,14 @@ function update(time) {
         const delta = time - lastTime;
 
         ball.update(delta, [playerPaddle.rect(), compoterPaddle.rect()]);
-        compoterPaddle.update(delta, ball.y);
+        if (window.innerWidth <= 768) {
+         compoterPaddle.update(delta, ball.x);
+
+        }
+        else{
+         compoterPaddle.update(delta, ball.y);
+            
+        }
         const hue = parseFloat(
             getComputedStyle(document.documentElement).getPropertyValue("--hue")
         )
@@ -30,19 +37,35 @@ function update(time) {
 }
 function handleLose() {
     const rect = ball.rect();
-    if (rect.right >= window.innerWidth) {
-        playerScoreElement.textContent = parseInt(playerScoreElement.textContent) + 1;
+
+    if (window.innerWidth <= 768) {
+        if (rect.top >= window.innerHeight) {
+            playerScoreElement.textContent = parseInt(playerScoreElement.textContent) + 1;
+        }
+        else {
+            computerScoreElement.textContent = parseInt(computerScoreElement.textContent) + 1;
+
+        }
     }
     else {
-        computerScoreElement.textContent = parseInt(computerScoreElement.textContent) + 1;
+        if (rect.right >= window.innerWidth) {
+            playerScoreElement.textContent = parseInt(playerScoreElement.textContent) + 1;
+        }
+        else {
+            computerScoreElement.textContent = parseInt(computerScoreElement.textContent) + 1;
 
+        }
     }
     ball.reset()
     compoterPaddle.reset()
 }
 function isLose() {
     const rect = ball.rect();
-    return rect.right >= window.innerWidth || rect.left <= 0
+
+    if (window.innerWidth <= 768)
+        return rect.top >= window.innerHeight || rect.bottom <= 0
+    else
+        return rect.right >= window.innerWidth || rect.left <= 0
 
 }
 document.addEventListener("mousemove", e => {
@@ -58,11 +81,9 @@ document.addEventListener('touchstart', (event) => {
 document.addEventListener('touchmove', (event) => {
     if (isDragging) {
         const touch = event.touches[0];
-        const touchY = touch.clientY;
-        
-
+        const touchX = touch.clientX;
         // Adjust the paddle position based on the touch position
-        playerPaddle.position = (touchY / window.innerHeight) * 100;
+        playerPaddle.position = (touchX / window.innerWidth) * 100;
     }
 });
 

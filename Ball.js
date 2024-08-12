@@ -40,14 +40,24 @@ export default class Ball {
         this.velocity += VELOCITY_INCREASE * delta;
 
         const rect = this.rect();
-
-        if (rect.bottom >= window.innerHeight || rect.top <= 0) {
-            this.direction.y *= -1;
+        //for mobile
+        if (window.innerWidth <= 768) {
+            if (rect.right >= window.innerWidth || rect.left <= 0) {
+                this.direction.x *= -1;
+            }
+            if (paddleRects.some(r => isCollision(r, rect))) {
+                this.direction.y *= -1;
+            }
         }
-        if (paddleRects.some(r => isCollision(r, rect))) {
-            this.direction.x *= -1;
+        //for desktop
+        else {
+            if (rect.bottom >= window.innerHeight || rect.top <= 0) {
+                this.direction.y *= -1;
+            }
+            if (paddleRects.some(r => isCollision(r, rect))) {
+                this.direction.x *= -1;
+            }
         }
-
     }
 }
 
