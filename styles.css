@@ -45,7 +45,7 @@ body {
 .paddle.left{
     left: 1vw;
     @media(max-width:768px){
-        top: 95vh;
+        top: 93vh;
         left: calc(var(--position)*1vw);
 
         
