@@ -15,8 +15,6 @@ let lastTime;
 function update(time) {
     if (lastTime != null) {
         const delta = time - lastTime;
-
-        ball.update(delta, [playerPaddle.rect(), compoterPaddle.rect()]);
         if (window.innerWidth <= 768) {
             compoterPaddle.update(delta, ball.x);
 
@@ -29,6 +27,7 @@ function update(time) {
             getComputedStyle(document.documentElement).getPropertyValue("--hue")
         )
         document.documentElement.style.setProperty("--hue", hue + delta * 0.01)
+        ball.update(delta, [playerPaddle.rect(), compoterPaddle.rect()]);
 
         if (isLose()) {
             handleLose();
