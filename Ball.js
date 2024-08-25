@@ -48,66 +48,48 @@ export default class Ball {
         this.x += this.direction.x * this.velocity * delta;
         this.y += this.direction.y * this.velocity * delta;
         this.velocity += VELOCITY_INCREASE * delta;
-        collisionAllowed=true;
+    
         const rect = this.rect();
-        if(collisionAllowed===true){
-        // Mobile
-        if (window.innerWidth <= 768) {
-            // Wall collisions
+    
+        // Wall collisions
+        if (window.innerWidth <= 768) { // Mobile
             if (rect.right >= window.innerWidth || rect.left <= 0) {
                 this.direction.x *= -1;
-                collisionAllowed=false;
-
                 hitWall.currentTime = 0;
                 hitWall.play();
             }
-    
-            // Paddle collisions
-            if (paddleRects.some(r => isCollision(r, rect))) {
-                this.direction.y *= -1;
-                collisionAllowed=false;
-                
-                // Reposition the ball slightly outside the paddle
-                if (rect.top < window.innerHeight / 2) {
-                    this.y += 2; // Move the ball down slightly if it hit the top paddle
-                } else {
-                    this.y -= 2; // Move the ball up slightly if it hit the bottom paddle
-                }
-                
-                hitPaddle.currentTime = 0;
-                hitPaddle.play();
-            }
-        }
-    }
-        // Desktop
-        else {
-            // Wall collisions
+        } else { // Desktop
             if (rect.bottom >= window.innerHeight || rect.top <= 0) {
                 this.direction.y *= -1;
-                collisionAllowed=false;
-
                 hitWall.currentTime = 0;
                 hitWall.play();
             }
+        }
     
-            // Paddle collisions
-            if (paddleRects.some(r => isCollision(r, rect))) {
-                this.direction.x *= -1;
-                collisionAllowed=false;
-                
-    
-                // Reposition the ball slightly outside the paddle
-                if (rect.left < window.innerWidth / 2) {
-                    this.x += 2; // Move the ball right slightly if it hit the left paddle
+        // Paddle collisions
+        if (paddleRects.some(r => isCollision(r, rect))) {
+            if (window.innerWidth <= 768) { // Mobile
+                this.direction.y *= -1;
+                // Adjust ball position slightly to avoid multiple collisions
+                if (rect.top < window.innerHeight / 2) {
+                    this.y += 0.01;
                 } else {
-                    this.x -= 2; // Move the ball left slightly if it hit the right paddle
+                    this.y -= 0.01;
                 }
-    
-                hitPaddle.currentTime = 0;
-                hitPaddle.play();
+            } else { // Desktop
+                this.direction.x *= -1;
+                // Adjust ball position slightly to avoid multiple collisions
+                if (rect.left < window.innerWidth / 2) {
+                    this.x += 0.001;
+                } else {
+                    this.x -= 0.001;
+                }
             }
+            hitPaddle.currentTime = 0;
+            hitPaddle.play();
         }
     }
+    
     
 }
 
